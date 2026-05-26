@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Inicio - Guardería Canina IA</title>
+
+<style>
+
+/* =========================
+RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* =========================
+BODY
+========================= */
+
+body{
+
+    font-family:Arial, Helvetica, sans-serif;
+
+    background:
+    linear-gradient(
+    rgba(7,25,55,0.95),
+    rgba(7,25,55,0.95)
+    ),
+    #071937;
+
+    color:white;
+
+    overflow-x:hidden;
+
+    min-height:100vh;
+}
+
+/* =========================
+FONDO
+========================= */
+
+.fondo{
+
+    position:fixed;
+
+    width:100%;
+
+    height:100%;
+
+    overflow:hidden;
+
+    z-index:0;
+}
+
+.huella{
+
+    position:absolute;
+
+    color:rgba(79,140,255,0.18);
+
+    user-select:none;
+
+    animation:flotar 5s infinite alternate;
+
+    text-shadow:
+    0 0 10px rgba(79,140,255,0.35);
+}
+
+@keyframes flotar{
+
+    from{
+        transform:translateY(0px);
+    }
+
+    to{
+        transform:translateY(-12px);
+    }
+}
+
+/* =========================
+CONTENEDOR
+========================= */
+
+.main{
+
+    position:relative;
+
+    z-index:1;
+
+    padding:40px 20px;
+
+    display:flex;
+
+    justify-content:center;
+}
+
+.container{
+
+    width:1150px;
+
+    background:
+    linear-gradient(
+    180deg,
+    #0d2b59,
+    #082042
+    );
+
+    border-radius:28px;
+
+    padding:45px;
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+    0 0 35px rgba(0,0,0,0.5);
+}
+
+/* =========================
+HEADER
+========================= */
+
+.hero{
+
+    display:grid;
+
+    grid-template-columns:1.2fr 1fr;
+
+    gap:35px;
+
+    align-items:center;
+}
+
+.hero-text h1{
+
+    color:#ffd400;
+
+    font-size:62px;
+
+    margin-bottom:15px;
+
+    line-height:1.1;
+}
+
+.hero-text p{
+
+    color:#dbe7ff;
+
+    font-size:20px;
+
+    line-height:1.7;
+
+    margin-bottom:30px;
+}
+
+/* =========================
+BOTONES
+========================= */
+
+.botones{
+
+    display:flex;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+}
+
+.btn-principal{
+
+    background:#ffd400;
+
+    color:black;
+
+    padding:16px 35px;
+
+    border-radius:14px;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+    transition:0.3s;
+
+    box-shadow:
+    0 0 20px rgba(255,212,0,0.35);
+}
+
+.btn-principal:hover{
+
+    transform:translateY(-3px);
+
+    background:#ffe14d;
+}
+
+.btn-secundario{
+
+    border:2px solid #4f8cff;
+
+    color:#4f8cff;
+
+    padding:16px 35px;
+
+    border-radius:14px;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+    transition:0.3s;
+}
+
+.btn-secundario:hover{
+
+    background:#4f8cff;
+
+    color:white;
+}
+
+/* =========================
+TARJETA IA
+========================= */
+
+.hero-card{
+
+    background:
+    linear-gradient(
+    180deg,
+    #123a72,
+    #0a2548
+    );
+
+    border-radius:25px;
+
+    padding:30px;
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+    0 0 25px rgba(0,0,0,0.35);
+}
+
+.hero-card img{
+
+    width:100%;
+
+    border-radius:18px;
+
+    margin-bottom:20px;
+}
+
+.hero-card h2{
+
+    color:#ffd400;
+
+    margin-bottom:15px;
+}
+
+.hero-card p{
+
+    color:#dbe7ff;
+
+    line-height:1.7;
+}
+
+/* =========================
+ESTADÍSTICAS
+========================= */
+
+.stats{
+
+    margin-top:45px;
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+}
+
+.stat{
+
+    background:#103564;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    transition:0.3s;
+}
+
+.stat:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:
+    0 0 20px rgba(0,0,0,0.35);
+}
+
+.stat h3{
+
+    color:#dbe7ff;
+
+    font-size:16px;
+
+    margin-bottom:10px;
+}
+
+.stat p{
+
+    font-size:38px;
+
+    font-weight:bold;
+}
+
+.amarillo{
+    color:#ffd400;
+}
+
+.azul{
+    color:#4f8cff;
+}
+
+.rojo{
+    color:#ff4d6d;
+}
+
+.verde{
+    color:#2ee59d;
+}
+
+/* =========================
+SECCIONES
+========================= */
+
+.secciones{
+
+    margin-top:50px;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:25px;
+}
+
+.card{
+
+    background:#103564;
+
+    border-radius:22px;
+
+    padding:28px;
+
+    transition:0.3s;
+}
+
+.card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+    0 0 20px rgba(0,0,0,0.35);
+}
+
+.card h2{
+
+    color:#ffd400;
+
+    margin-bottom:15px;
+
+    font-size:24px;
+}
+
+.card p{
+
+    color:#dbe7ff;
+
+    line-height:1.8;
+}
+
+/* =========================
+GALERÍA
+========================= */
+
+.galeria{
+
+    margin-top:50px;
+}
+
+.galeria h2{
+
+    color:#ffd400;
+
+    text-align:center;
+
+    font-size:36px;
+
+    margin-bottom:30px;
+}
+
+.imagenes{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+}
+
+.imagenes img{
+
+    width:100%;
+
+    height:350px;
+
+    object-fit:cover;
+
+    border-radius:20px;
+
+    transition:0.4s;
+
+    border:3px solid transparent;
+}
+
+.imagenes img:hover{
+
+    transform:scale(1.04);
+
+    border-color:#ffd400;
+}
+
+/* =========================
+FOOTER
+========================= */
+
+.footer{
+
+    margin-top:60px;
+
+    text-align:center;
+
+    background:rgba(6,18,40,0.55);
+
+    padding:45px;
+
+    border-radius:28px;
+
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+.footer h2{
+
+    color:#ffd400;
+
+    font-size:38px;
+
+    margin-bottom:20px;
+}
+
+.footer p{
+
+    color:#dbe7ff;
+
+    margin-bottom:35px;
+
+    font-size:18px;
+}
+
+.footer a{
+
+    background:#ffd400;
+
+    color:black;
+
+    padding:18px 40px;
+
+    border-radius:16px;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+    font-size:18px;
+
+    transition:0.3s;
+
+    box-shadow:
+    0 0 20px rgba(255,212,0,0.35);
+}
+
+.footer a:hover{
+
+    transform:translateY(-3px);
+
+    background:#ffe14d;
+}
+
+/* =========================
+INFO FOOTER
+========================= */
+
+.footer-info{
+
+    margin-top:45px;
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+
+    gap:25px;
+
+    text-align:left;
+}
+
+.footer-box{
+
+    background:#103564;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    border:1px solid rgba(255,255,255,0.06);
+}
+
+.footer-box h3{
+
+    color:#ffd400;
+
+    margin-bottom:18px;
+
+    font-size:22px;
+}
+
+.footer-box p{
+
+    margin-bottom:12px;
+
+    color:#dbe7ff;
+
+    font-size:16px;
+}
+
+.redes-sociales{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+}
+
+.redes-sociales a{
+
+    background:none;
+
+    padding:0;
+
+    color:#dbe7ff;
+
+    box-shadow:none;
+
+    font-size:16px;
+
+    font-weight:normal;
+}
+
+.redes-sociales a:hover{
+
+    color:#ffd400;
+
+    transform:translateX(5px);
+}
+
+.copy{
+
+    margin-top:35px;
+
+    padding-top:20px;
+
+    border-top:1px solid rgba(255,255,255,0.08);
+
+    color:#9db7e5;
+
+    font-size:15px;
+}
+
+/* =========================
+RESPONSIVE
+========================= */
+
+@media(max-width:1000px){
+
+    .hero{
+
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+
+        grid-template-columns:1fr 1fr;
+    }
+
+    .secciones{
+
+        grid-template-columns:1fr;
+    }
+
+    .imagenes{
+
+        grid-template-columns:1fr 1fr;
+    }
+
+    .hero-text h1{
+
+        font-size:45px;
+    }
+}
+
+@media(max-width:650px){
+
+    .container{
+
+        padding:25px;
+    }
+
+    .stats{
+
+        grid-template-columns:1fr;
+    }
+
+    .imagenes{
+
+        grid-template-columns:1fr;
+    }
+
+    .hero-text h1{
+
+        font-size:36px;
+    }
+
+    .hero-text p{
+
+        font-size:17px;
+    }
+
+    .botones{
+
+        flex-direction:column;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =========================
+FONDO
+========================= -->
+
+<div class="fondo" id="fondo"></div>
+
+<!-- =========================
+CONTENIDO
+========================= -->
+
+<div class="main">
+
+<div class="container">
+
+<!-- =========================
+HERO
+========================= -->
+
+<div class="hero">
+
+<div class="hero-text">
+
+<h1>
+Guardería Canina IA
+</h1>
+
+<p>
+Sistema inteligente diseñado para analizar el comportamiento de perros mediante inteligencia artificial y aprendizaje automático, ayudando a mejorar la convivencia y seguridad dentro de una guardería canina.
+</p>
+
+<div class="botones">
+
+<a href="/analisis" class="btn-principal">
+Entrar al análisis
+</a>
+
+<a href="#informacion" class="btn-secundario">
+Ver información
+</a>
+
+</div>
+
+</div>
+
+<div class="hero-card">
+
+<img src="/static/imagenes/otrologo.jpeg">
+
+<h2>
+Análisis inteligente
+</h2>
+
+<p>
+El sistema analiza variables importantes como energía, edad, peso y socialización para generar predicciones automáticas sobre el comportamiento del perro.
+</p>
+
+</div>
+
+</div>
+
+<!-- =========================
+ESTADÍSTICAS
+========================= -->
+
+<div class="stats">
+
+<div class="stat">
+
+<h3>Modelo IA</h3>
+
+<p class="amarillo">
+95%
+</p>
+
+</div>
+
+<div class="stat">
+
+<h3>Predicciones</h3>
+
+<p class="azul">
++500
+</p>
+
+</div>
+
+<div class="stat">
+
+<h3>Precisión</h3>
+
+<p class="verde">
+Alta
+</p>
+
+</div>
+
+<div class="stat">
+
+<h3>Seguridad</h3>
+
+<p class="rojo">
+100%
+</p>
+
+</div>
+
+</div>
+
+<!-- =========================
+SECCIONES
+========================= -->
+
+<div class="secciones" id="informacion">
+
+<div class="card">
+
+<h2>
+¿Qué hace este sistema?
+</h2>
+
+<p>
+La plataforma analiza automáticamente el comportamiento de perros utilizando Machine Learning. El modelo identifica patrones y clasifica a las mascotas como tranquilas, nerviosas o agresivas dependiendo de los datos ingresados.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>
+¿Por qué se creó?
+</h2>
+
+<p>
+El objetivo es ayudar a las guarderías caninas a prevenir conflictos entre mascotas, mejorar la convivencia y facilitar las decisiones del personal encargado mediante predicciones inteligentes.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>
+Uso de IA
+</h2>
+
+<p>
+El proyecto utiliza modelos de inteligencia artificial entrenados con datasets en formato CSV. Gracias a esto, el sistema aprende patrones reales y puede realizar análisis automáticos con porcentajes de confianza.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>
+Beneficios
+</h2>
+
+<p>
+Permite optimizar evaluaciones, ahorrar tiempo, reducir riesgos y brindar una experiencia más segura tanto para las mascotas como para los encargados de la guardería.
+</p>
+
+</div>
+
+</div>
+
+<!-- =========================
+GALERÍA
+========================= -->
+
+<div class="galeria">
+
+<h2>
+Guardería Canina
+</h2>
+
+<div class="imagenes">
+
+<img src="/static/imagenes/black.jpeg">
+
+<img src="/static/imagenes/dixie.jpeg">
+
+<img src="/static/imagenes/rocko.jpeg">
+
+<img src="/static/imagenes/yeik.jpeg">
+
+</div>
+
+</div>
+
+<!-- =========================
+FOOTER
+========================= -->
+
+<div class="footer">
+
+<h2>
+¿Listo para comenzar?
+</h2>
+
+<p>
+Ingresa al sistema y analiza el comportamiento de mascotas con inteligencia artificial.
+</p>
+
+<a href="/analisis">
+
+Ir al análisis inteligente
+
+</a>
+
+<!-- =========================
+INFO FOOTER
+========================= -->
+
+<div class="footer-info">
+
+<div class="footer-box">
+
+<h3>
+Ubicación
+</h3>
+
+<p>
+📍 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3975.493770804889!2d-74.07823052635965!3d4.856591540289192!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f87a49729117b%3A0xa73b2f835083d05f!2sFortaleza%20Kennel%20Club!5e0!3m2!1ses!2sco!4v1779767537013!5m2!1ses!2sco" width="200" height="150" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</p>
+
+<p>
+📌 Chía - Colombia
+</p>
+
+</div>
+
+<div class="footer-box">
+
+<h3>
+Redes sociales
+</h3>
+
+<div class="redes-sociales">
+
+<a href="https://www.instagram.com/fortaleza_kennel_club_/">
+Instagram
+</a>
+
+<a href="https://www.facebook.com/profile.php?id=100063457752089&locale=es_LA">
+Facebook
+</a>
+
+<a href="https://www.tiktok.com/@14fortalezakennelclub">
+TikTok
+</a>
+
+<a href="https://wa.link/n6jjtz">
+WhatsApp
+</a>
+
+</div>
+
+</div>
+
+<div class="footer-box">
+
+<h3>
+Contacto
+</h3>
+
+<p>
+📞 +57 314-291-6124
+</p>
+
+<p>
+✉ correo@guarderiacanina.com
+</p>
+
+</div>
+
+</div>
+
+<div class="copy">
+
+© 2026 Guardería Canina IA - Todos los derechos reservados
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+<script>
+
+/* =========================
+HUELLAS
+========================= */
+
+const fondo = document.getElementById("fondo");
+
+for(let i=0; i<140; i++){
+
+    const huella =
+    document.createElement("div");
+
+    huella.classList.add("huella");
+
+    huella.innerHTML = "🐾";
+
+    huella.style.top =
+    Math.random()*100 + "%";
+
+    huella.style.left =
+    Math.random()*100 + "%";
+
+    huella.style.fontSize =
+    (18 + Math.random()*30) + "px";
+
+    huella.style.animationDuration =
+    (3 + Math.random()*5) + "s";
+
+    fondo.appendChild(huella);
+}
+
+</script>
+
+</body>
+</html>

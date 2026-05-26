@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Guardería Canina IA</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+/* =========================
+ESTILOS GENERALES
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:Arial, Helvetica, sans-serif;
+
+    background:
+    linear-gradient(
+    rgba(7,25,55,0.92),
+    rgba(7,25,55,0.92)
+    ),
+    #071937;
+
+    color:white;
+
+    overflow-x:hidden;
+
+    min-height:100vh;
+}
+
+ /* =========================
+FONDO HUELLAS MEJORADO
+========================= */
+
+.fondo{
+
+    position:fixed;
+
+    width:100%;
+
+    height:100%;
+
+    overflow:hidden;
+
+    z-index:0;
+
+    pointer-events:none;
+}
+
+.huella{
+
+    position:absolute;
+
+    color:rgba(79,140,255,0.18);
+
+    user-select:none;
+
+    animation:flotar 5s infinite alternate;
+
+    text-shadow:
+    0 0 10px rgba(79,140,255,0.35);
+}
+
+@keyframes flotar{
+
+    from{
+        transform:translateY(0px);
+    }
+
+    to{
+        transform:translateY(-12px);
+    }
+}
+
+/* =========================
+BOTÓN HOME
+========================= */
+
+.boton-home{
+
+    position:fixed;
+
+    top:18px;
+
+    right:18px;
+
+    z-index:9999;
+
+    background:#ffd400;
+
+    color:#000;
+
+    padding:10px 16px;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+    font-size:12px;
+
+    box-shadow:
+    0 0 15px rgba(255,212,0,0.5);
+
+    transition:0.3s;
+}
+
+.boton-home:hover{
+
+    transform:scale(1.05);
+
+    background:#ffe14d;
+}
+
+/* =========================
+CONTENEDOR PRINCIPAL
+========================= */
+
+.main{
+
+    position:relative;
+
+    z-index:1;
+
+    display:flex;
+
+    justify-content:center;
+
+    padding:25px 10px;
+}
+
+.container{
+
+    width:630px;
+
+    background:
+    linear-gradient(
+    180deg,
+    #0d2b59,
+    #082042
+    );
+
+    border-radius:18px;
+
+    padding:22px;
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+    0 0 30px rgba(0,0,0,0.45);
+
+    backdrop-filter:blur(4px);
+}
+
+/* =========================
+HEADER
+========================= */
+
+.header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:15px;
+
+    margin-bottom:18px;
+}
+
+.titulos h1{
+
+    color:#ffd400;
+
+    font-size:31px;
+
+    margin-bottom:6px;
+}
+
+.sub{
+
+    color:#d5e3ff;
+
+    font-size:13px;
+}
+
+/* =========================
+FORMULARIO
+========================= */
+
+form{
+
+    margin-top:8px;
+}
+
+.campo{
+
+    margin-bottom:14px;
+}
+
+label{
+
+    display:block;
+
+    margin-bottom:5px;
+
+    font-size:13px;
+
+    color:#ffffff;
+}
+
+input{
+
+    width:100%;
+
+    padding:11px;
+
+    border:none;
+
+    border-radius:7px;
+
+    background:#0a2346;
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    transition:0.3s;
+}
+
+input::placeholder{
+
+    color:#8ea4c9;
+}
+
+input:focus{
+
+    outline:none;
+
+    border:1px solid #ffd400;
+
+    box-shadow:
+    0 0 10px rgba(255,212,0,0.4);
+}
+
+/* =========================
+MENSAJES ERROR
+========================= */
+
+.mensaje-error{
+
+    display:none;
+
+    margin-top:6px;
+
+    color:#ff7b7b;
+
+    font-size:12px;
+}
+
+/* =========================
+BOTONES
+========================= */
+
+button{
+
+    width:100%;
+
+    padding:11px;
+
+    border:none;
+
+    border-radius:7px;
+
+    background:#ffd400;
+
+    color:black;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+    margin-top:8px;
+}
+
+button:hover{
+
+    background:#ffe14d;
+
+    transform:translateY(-1px);
+}
+
+/* =========================
+RESULTADO
+========================= */
+
+.resultado{
+
+    display:none;
+
+    margin-top:18px;
+
+    background:#11386f;
+
+    border-radius:10px;
+
+    padding:15px;
+
+    border-left:4px solid #ffd400;
+}
+
+.resultado h2{
+
+    color:#ffd400;
+
+    margin-bottom:10px;
+}
+
+/* =========================
+ESTADÍSTICAS
+========================= */
+
+.estadisticas{
+
+    margin-top:18px;
+
+    background:#0c2d5c;
+
+    border-radius:10px;
+
+    padding:15px;
+}
+
+.estadisticas h2{
+
+    color:#ffd400;
+
+    font-size:18px;
+
+    margin-bottom:15px;
+}
+
+.stats-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:10px;
+}
+
+.card-stat{
+
+    background:#143d75;
+
+    border-radius:10px;
+
+    padding:12px;
+
+    text-align:center;
+}
+
+.card-stat h3{
+
+    font-size:12px;
+
+    margin-bottom:8px;
+}
+
+.card-stat p{
+
+    font-size:22px;
+
+    font-weight:bold;
+}
+
+.agresivo{
+    color:#ff4d6d;
+}
+
+.nervioso{
+    color:#4f8cff;
+}
+
+.tranquilo{
+    color:#ffd400;
+}
+
+.total{
+    color:#ffffff;
+}
+
+/* =========================
+GRÁFICAS
+========================= */
+
+.graficas{
+
+    display:none;
+
+    margin-top:18px;
+}
+
+.graficas-grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:12px;
+}
+
+.grafica-card{
+
+    background:#0c2d5c;
+
+    padding:12px;
+
+    border-radius:12px;
+}
+
+.grafica-card h3{
+
+    font-size:12px;
+
+    margin-bottom:10px;
+
+    color:#ffd400;
+}
+
+canvas{
+
+    width:100% !important;
+
+    height:220px !important;
+
+    background:white;
+
+    border-radius:10px;
+
+    padding:10px;
+}
+
+/* =========================
+BUSCADOR
+========================= */
+
+.buscador{
+
+    margin-top:18px;
+}
+
+.buscador h2{
+
+    color:#ffd400;
+
+    font-size:17px;
+
+    margin-bottom:10px;
+}
+
+/* =========================
+TABLA
+========================= */
+
+.historial-title{
+
+    margin-top:18px;
+
+    color:#ffd400;
+
+    font-size:17px;
+}
+
+table{
+
+    width:100%;
+
+    margin-top:12px;
+
+    border-collapse:collapse;
+
+    overflow:hidden;
+
+    border-radius:10px;
+
+    background:#0b2243;
+}
+
+th{
+
+    background:#ffd400;
+
+    color:black;
+
+    padding:10px;
+
+    font-size:12px;
+}
+
+td{
+
+    padding:10px;
+
+    text-align:center;
+
+    border-bottom:1px solid rgba(255,255,255,0.08);
+
+    font-size:12px;
+}
+
+/* =========================
+PAGINACIÓN
+========================= */
+
+.paginacion{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:10px;
+
+    margin-top:15px;
+}
+
+.paginacion button{
+
+    width:auto;
+
+    padding:8px 18px;
+
+    font-size:12px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =========================
+BOTÓN HOME
+========================= -->
+
+<a href="/" class="boton-home">
+
+Inicio
+
+</a>
+
+<!-- =========================
+FONDO
+========================= -->
+
+<div class="fondo" id="fondo"></div>
+
+<!-- =========================
+CONTENIDO
+========================= -->
+
+<div class="main">
+
+<div class="container">
+
+<div class="header">
+
+<div class="titulos">
+
+<h1>Guardería Canina IA</h1>
+
+<div class="sub">
+Sistema inteligente de comportamiento
+</div>
+
+</div>
+
+</div>
+
+<!-- =========================
+FORMULARIO
+========================= -->
+
+<form id="formulario">
+
+<div class="campo">
+
+<label>Energía (1-10)</label>
+
+<input
+type="number"
+id="energia"
+placeholder="Ingresa la energía"
+min="1"
+max="10"
+required>
+
+<div class="mensaje-error" id="errorEnergia">
+La energía debe estar entre 1 y 10
+</div>
+
+</div>
+
+<div class="campo">
+
+<label>Tamaño (1 pequeño - 3 grande)</label>
+
+<input
+type="number"
+id="tamano"
+placeholder="1 - 3"
+min="1"
+max="3"
+required>
+
+<div class="mensaje-error" id="errorTamano">
+El tamaño debe estar entre 1 y 3
+</div>
+
+</div>
+
+<div class="campo">
+
+<label>Edad</label>
+
+<input
+type="number"
+id="edad"
+placeholder="Ingresa la edad"
+min="1"
+max="20"
+required>
+
+<div class="mensaje-error" id="errorEdad">
+La edad debe estar entre 1 y 20
+</div>
+
+</div>
+
+<div class="campo">
+
+<label>Peso</label>
+
+<input
+type="number"
+id="peso"
+placeholder="Ingresa peso"
+min="1"
+max="80"
+required>
+
+<div class="mensaje-error" id="errorPeso">
+El peso debe estar entre 1 y 80
+</div>
+
+</div>
+
+<div class="campo">
+
+<label>Socialización (1-10)</label>
+
+<input
+type="number"
+id="socializacion"
+placeholder="1 - 10"
+min="1"
+max="10"
+required>
+
+<div class="mensaje-error" id="errorSocializacion">
+La socialización debe estar entre 1 y 10
+</div>
+
+</div>
+
+<button type="submit">
+
+Analizar comportamiento
+
+</button>
+
+</form>
+
+<!-- =========================
+RESULTADO
+========================= -->
+
+<div class="resultado" id="resultado"></div>
+
+<!-- =========================
+ESTADÍSTICAS
+========================= -->
+
+<div class="estadisticas">
+
+<h2>Estadísticas generales</h2>
+
+<div class="stats-grid">
+
+<div class="card-stat">
+
+<h3>Total</h3>
+
+<p class="total" id="totalAnalisis">
+0
+</p>
+
+</div>
+
+<div class="card-stat">
+
+<h3>Agresivos</h3>
+
+<p class="agresivo" id="totalAgresivos">
+0
+</p>
+
+</div>
+
+<div class="card-stat">
+
+<h3>Nerviosos</h3>
+
+<p class="nervioso" id="totalNerviosos">
+0
+</p>
+
+</div>
+
+<div class="card-stat">
+
+<h3>Tranquilos</h3>
+
+<p class="tranquilo" id="totalTranquilos">
+0
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =========================
+GRÁFICAS
+========================= -->
+
+<div class="graficas" id="graficas">
+
+<div class="graficas-grid">
+
+<div class="grafica-card">
+
+<h3>Análisis por categoría</h3>
+
+<canvas id="graficaBarra"></canvas>
+
+</div>
+
+<div class="grafica-card">
+
+<h3>Distribución</h3>
+
+<canvas id="graficaPastel"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =========================
+BUSCADOR
+========================= -->
+
+<div class="buscador">
+
+<h2>Buscar comportamiento</h2>
+
+<input
+type="text"
+id="busqueda"
+placeholder="Buscar..."
+>
+
+</div>
+
+<!-- =========================
+TABLA
+========================= -->
+
+<h2 class="historial-title">
+
+Historial de análisis
+
+</h2>
+
+<table id="tablaPerros">
+
+<thead>
+
+<tr>
+
+<th>Energía</th>
+<th>Socialización</th>
+<th>Resultado</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+</tbody>
+
+</table>
+
+<!-- =========================
+PAGINACIÓN
+========================= -->
+
+<div class="paginacion">
+
+<button id="anterior">
+
+Anterior
+
+</button>
+
+<button id="siguiente">
+
+Siguiente
+
+</button>
+
+</div>
+
+</div>
+</div>
+
+<script>
+
+/* =========================
+HUELLAS TRANSPARENTES
+========================= */
+
+const fondo = document.getElementById("fondo");
+
+for(let i=0; i<120; i++){
+
+    const huella = document.createElement("div");
+
+    huella.classList.add("huella");
+
+    huella.innerHTML = "🐾";
+
+    huella.style.top =
+    Math.random()*100 + "%";
+
+    huella.style.left =
+    Math.random()*100 + "%";
+
+    huella.style.fontSize =
+    (18 + Math.random()*40) + "px";
+
+    huella.style.animationDuration =
+    (5 + Math.random()*8) + "s";
+
+    fondo.appendChild(huella);
+}
+
+/* =========================
+VALIDACIONES
+========================= */
+
+function validarCampo(id,min,max,errorId){
+
+    const input =
+    document.getElementById(id);
+
+    const error =
+    document.getElementById(errorId);
+
+    input.addEventListener("input", function(){
+
+        let valor =
+        parseInt(input.value);
+
+        if(valor > max){
+
+            input.value = max;
+
+            error.style.display = "block";
+
+        }
+
+        else if(valor < min && input.value !== ""){
+
+            input.value = min;
+
+            error.style.display = "block";
+
+        }
+
+        else{
+
+            error.style.display = "none";
+        }
+
+    });
+
+}
+
+validarCampo(
+    "energia",
+    1,
+    10,
+    "errorEnergia"
+);
+
+validarCampo(
+    "tamano",
+    1,
+    3,
+    "errorTamano"
+);
+
+validarCampo(
+    "edad",
+    1,
+    20,
+    "errorEdad"
+);
+
+validarCampo(
+    "peso",
+    1,
+    80,
+    "errorPeso"
+);
+
+validarCampo(
+    "socializacion",
+    1,
+    10,
+    "errorSocializacion"
+);
+
+/* =========================
+VARIABLES
+========================= */
+
+let barras;
+let pastel;
+
+let totalAnalisis = 0;
+let agresivos = 0;
+let nerviosos = 0;
+let tranquilos = 0;
+
+let historialCompleto = [];
+
+let paginaActual = 1;
+
+const filasPorPagina = 15;
+
+/* =========================
+CARGAR HISTORIAL
+========================= */
+
+window.onload = async function(){
+
+    const response =
+    await fetch(
+        "http://127.0.0.1:5000/historial"
+    );
+
+    historialCompleto =
+    await response.json();
+
+    historialCompleto.forEach(perro => {
+
+        totalAnalisis++;
+
+        if(perro.resultado === "Agresivo"){
+            agresivos++;
+        }
+
+        else if(perro.resultado === "Nervioso"){
+            nerviosos++;
+        }
+
+        else{
+            tranquilos++;
+        }
+
+    });
+
+    actualizarEstadisticas();
+
+    mostrarGraficas();
+
+    cargarTabla();
+}
+
+/* =========================
+CARGAR TABLA
+========================= */
+
+function cargarTabla(){
+
+    const tabla =
+    document.querySelector(
+        "#tablaPerros tbody"
+    );
+
+    tabla.innerHTML = "";
+
+    const inicio =
+    (paginaActual - 1)
+    * filasPorPagina;
+
+    const fin =
+    inicio + filasPorPagina;
+
+    const datosPagina =
+    historialCompleto.slice(
+        inicio,
+        fin
+    );
+
+    datosPagina.forEach(perro => {
+
+        const fila = `
+
+        <tr>
+
+        <td>${perro.energia}</td>
+
+        <td>${perro.socializacion}</td>
+
+        <td>${perro.resultado}</td>
+
+        </tr>
+
+        `;
+
+        tabla.innerHTML += fila;
+
+    });
+
+}
+
+/* =========================
+PAGINACIÓN
+========================= */
+
+document.getElementById("siguiente")
+.addEventListener("click", function(){
+
+    const totalPaginas =
+    Math.ceil(
+        historialCompleto.length
+        / filasPorPagina
+    );
+
+    if(paginaActual < totalPaginas){
+
+        paginaActual++;
+
+        cargarTabla();
+    }
+
+});
+
+document.getElementById("anterior")
+.addEventListener("click", function(){
+
+    if(paginaActual > 1){
+
+        paginaActual--;
+
+        cargarTabla();
+    }
+
+});
+
+/* =========================
+FORMULARIO
+========================= */
+
+document.getElementById("formulario")
+.addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const energia =
+    parseInt(
+        document.getElementById("energia").value
+    );
+
+    const tamano =
+    parseInt(
+        document.getElementById("tamano").value
+    );
+
+    const edad =
+    parseInt(
+        document.getElementById("edad").value
+    );
+
+    const peso =
+    parseInt(
+        document.getElementById("peso").value
+    );
+
+    const socializacion =
+    parseInt(
+        document.getElementById("socializacion").value
+    );
+
+    if(
+        energia < 1 || energia > 10 ||
+        tamano < 1 || tamano > 3 ||
+        edad < 1 || edad > 20 ||
+        peso < 1 || peso > 80 ||
+        socializacion < 1 || socializacion > 10
+    ){
+
+        alert(
+            "Por favor verifica los datos del formulario."
+        );
+
+        return;
+    }
+
+    const data = {
+
+        energia:energia,
+
+        tamano:tamano,
+
+        edad:edad,
+
+        peso:peso,
+
+        socializacion:socializacion
+    };
+
+    const response = await fetch(
+
+        "http://127.0.0.1:5000/predecir",
+
+    {
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify(data)
+
+    });
+
+    const result = await response.json();
+
+    let convivencia = "";
+    let resultadoTexto = "";
+
+    if(result.resultado === "AGRESIVO"){
+
+        resultadoTexto = "Agresivo";
+
+        convivencia =
+        "No recomendable para convivir.";
+
+        agresivos++;
+    }
+
+    else if(result.resultado === "NERVIOSO"){
+
+        resultadoTexto = "Nervioso";
+
+        convivencia =
+        "Puede convivir con supervisión.";
+
+        nerviosos++;
+    }
+
+    else{
+
+        resultadoTexto = "Tranquilo";
+
+        convivencia =
+        "Puede convivir sin problema.";
+
+        tranquilos++;
+    }
+
+    totalAnalisis++;
+
+    document.getElementById("resultado")
+    .style.display = "block";
+
+    document.getElementById("resultado")
+    .innerHTML = `
+
+    <h2>
+    Resultado: ${resultadoTexto}
+    </h2>
+
+    <strong>Convivencia:</strong><br>
+    ${convivencia}
+
+    `;
+
+    historialCompleto.unshift({
+
+        energia:data.energia,
+
+        socializacion:data.socializacion,
+
+        resultado:resultadoTexto
+
+    });
+
+    paginaActual = 1;
+
+    cargarTabla();
+
+    document
+    .getElementById("formulario")
+    .reset();
+
+    actualizarEstadisticas();
+
+    mostrarGraficas();
+
+});
+
+/* =========================
+ESTADÍSTICAS
+========================= */
+
+function actualizarEstadisticas(){
+
+    document.getElementById(
+        "totalAnalisis"
+    ).innerHTML = totalAnalisis;
+
+    document.getElementById(
+        "totalAgresivos"
+    ).innerHTML = agresivos;
+
+    document.getElementById(
+        "totalNerviosos"
+    ).innerHTML = nerviosos;
+
+    document.getElementById(
+        "totalTranquilos"
+    ).innerHTML = tranquilos;
+}
+
+/* =========================
+GRÁFICAS
+========================= */
+
+function mostrarGraficas(){
+
+    document.getElementById(
+        "graficas"
+    ).style.display = "block";
+
+    if(barras){
+        barras.destroy();
+    }
+
+    if(pastel){
+        pastel.destroy();
+    }
+
+    barras = new Chart(
+
+        document.getElementById(
+            "graficaBarra"
+        ),
+
+    {
+
+        type:"bar",
+
+        data:{
+
+            labels:[
+                "Agresivo",
+                "Nervioso",
+                "Tranquilo"
+            ],
+
+            datasets:[{
+
+                label:"Cantidad",
+
+                data:[
+                    agresivos,
+                    nerviosos,
+                    tranquilos
+                ],
+
+                backgroundColor:[
+                    "#ff4d6d",
+                    "#4f8cff",
+                    "#ffd400"
+                ],
+
+                borderRadius:10
+            }]
+        },
+
+        options:{
+            responsive:true,
+            maintainAspectRatio:false
+        }
+    });
+
+    pastel = new Chart(
+
+        document.getElementById(
+            "graficaPastel"
+        ),
+
+    {
+
+        type:"pie",
+
+        data:{
+
+            labels:[
+                "Agresivo",
+                "Nervioso",
+                "Tranquilo"
+            ],
+
+            datasets:[{
+
+                data:[
+                    agresivos,
+                    nerviosos,
+                    tranquilos
+                ],
+
+                backgroundColor:[
+                    "#ff4d6d",
+                    "#4f8cff",
+                    "#ffd400"
+                ]
+            }]
+        },
+
+        options:{
+            responsive:true,
+            maintainAspectRatio:false
+        }
+    });
+
+}
+
+/* =========================
+BUSCADOR
+========================= */
+
+document.getElementById("busqueda")
+.addEventListener("keyup", function(){
+
+    const texto =
+    this.value.toLowerCase();
+
+    const filas =
+    document.querySelectorAll(
+        "#tablaPerros tbody tr"
+    );
+
+    filas.forEach(fila => {
+
+        const resultado =
+        fila.cells[2]
+        .textContent
+        .toLowerCase();
+
+        if(resultado.includes(texto)){
+
+            fila.style.display = "";
+
+        }else{
+
+            fila.style.display = "none";
+        }
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
