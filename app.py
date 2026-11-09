@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify, send_file
+from pathlib import Path
 import numpy as np
 import pandas as pd
 
 from sklearn.linear_model import LogisticRegression
 
 app = Flask(__name__)
+BASE_DIR = Path(__file__).resolve().parent
 
 # =========================
 # CARGAR O CREAR DATASET
@@ -13,7 +15,7 @@ app = Flask(__name__)
 try:
 
     # Intentar cargar CSV existente
-    df = pd.read_csv("perros.csv")
+    df = pd.read_csv(BASE_DIR / "perros.csv")
 
     print("CSV cargado correctamente")
 
@@ -60,7 +62,7 @@ except:
     )
 
     # Guardar CSV
-    df.to_csv("perros.csv", index=False)
+    df.to_csv(BASE_DIR / "perros.csv", index=False)
 
 # =========================
 # VARIABLES DEL MODELO
@@ -93,11 +95,11 @@ print("Modelo entrenado correctamente")
 @app.route("/")
 def home():
 
-    return send_file("home.html")
+    return send_file(BASE_DIR / "home.html")
 
 @app.route("/analisis")
 def analisis():
-    return send_file("index.html")
+    return send_file(BASE_DIR / "index.html")
 
 # =========================
 # HISTORIAL
@@ -189,7 +191,7 @@ def predecir():
     ], ignore_index=True)
 
     # Guardar CSV actualizado
-    df.to_csv("perros.csv", index=False)
+    df.to_csv(BASE_DIR / "perros.csv", index=False)
 
     print("Nuevo perro agregado")
 
@@ -206,4 +208,4 @@ def predecir():
 
 if __name__ == "__main__":
 
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=False)
